@@ -147,3 +147,28 @@ async function loadWords() {
 }
 //loadWords();
 
+
+function removeTagsImgScriptRegex(htmlString) {
+    // Regex to match <script>...</script> (including content)
+    // /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
+    // g: global (all occurrences)
+    // i: case-insensitive
+    // \b: word boundary to match 'script' but not 'javascript'
+    // [^<]*: matches any character except '<' zero or more times
+    // (?:(?!<\/script>)<[^<]*)*: non-capturing group. Ensures it matches
+    //                           until </script> is found.
+    const scriptRegex = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
+
+    // Regex to match <img> tags
+    // <img: matches literal <img>
+    // [^>]*: matches any character that is not '>' zero or more times (for attributes)
+    // \/?: matches optional closing slash (for self-closing tags <img />)
+    // >: matches closing '>'
+    const imgRegex = /<img[^>]*\/?>/gi;
+
+    let cleanedString = htmlString.replace(scriptRegex, '');
+    cleanedString = cleanedString.replace(imgRegex, '');
+
+    return cleanedString;
+}
+
