@@ -3,6 +3,7 @@
 Fügt seltene Vokabeln in Epub-Dateinen für Ebook-Reader ein.
 Es soll Schülern und Schülerinnen das Lesen englischer Texte erleichtern.
 
+Das Programm ist eigentlich überflüssig, da man es viel besser in EBook.Reader einbauen könnte.
 
 # Preview
 https://raw.githack.com/ColbertKa/Vokabeln4Epub/main/index.html
