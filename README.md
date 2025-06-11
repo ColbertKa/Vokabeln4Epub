@@ -1,5 +1,8 @@
 # Vokabeln4Epub
 
+Fügt seltene Vokabeln in Epub-Dateinen für Ebook-Reader ein.
+Es soll Schülern und Schülerinnen das Lesen englischer Texte erleichtern.
+
 # Quellen
 * https://en.wiktionary.org/wiki/Wiktionary:Frequency_lists/English
 
