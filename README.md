@@ -18,4 +18,4 @@ https://raw.githack.com/ColbertKa/Vokabeln4Epub/main/index.html
 # Run localy
 
 * Pull from git
-* start simple http server: python -m http.server 8080
+* start simple http server: python3 -m http.server 8080
