@@ -157,7 +157,10 @@
 
 
                     let contentMitVokabeln= vokabeln4Html(htmlContent);   
-                    htmlArray.push(contentMitVokabeln);
+                    let noImgCSS=removeTagsImgScriptRegex(htmlContent);
+                    //htmlArray.push(contentMitVokabeln);
+                    htmlArray.push(noImgCSS);
+                     
                     //unzipped.file(fileName, vokabeln4Html(htmlContent));
                     unzipped.file(fileName, contentMitVokabeln);
                     console.log("Vobalen für " + fileName);
