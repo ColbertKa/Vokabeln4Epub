@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vokabeln 4 epub</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+
+<body>
+    <h2>Deutsche Vokabeln in englische EPUB Dateien einfügen</h2>
+
+    
+
+    <input type="file" id="fileInput">
+    <button onclick="processZip()">Process EPUB</button>
+    <span id="htmlFileName"></span>
+   
+
+    <div style="margin: 1cm;">
+        <label for="myNumberInputHtml">Ab welchem Platz in der Häufigkeitsliste der Vokabeln (Je größer um so
+            seltener):</label>
+        <input type="number" id="myNumberInputHtml" value="0" onchange="updateVariableFromHtml()">
+    </div>
+
+    <div id="previewDiv" style="display:none;margin: 1cm;">
+        <h1>Preview</h1>
+        <iframe style="width: 50%; height:600px;" sandbox="" id="displayTextIframe"></iframe>
+        <div class="controls">
+            <button id="prevBtn">Previous</button>
+            <button id="nextBtn">Next</button>
+        </div>
+        <div id="indexIndicator"></div>
+    </div>
+
+    
+    <div style="margin: 1cm;">
+        <span>Häufigkei über 8k:</span><span id="ueber8kStat">0%</span>
+        <h3>Auszug aus der Häufigkeitsliste</h3>
+        Besser zu klein anfangen. Eine Vokabel die man nachschlagen muss ist ärgerllicher als eine die zuviel übersetzt wurde.
+        <pre>
+            3000  indicated,arkansas,experimental
+            3500  ongoing,alice,immigration
+            4000  interstate,execution,enrolled
+            4500  spots,surrender,observation
+            5000  guidance,joan,dealing
+            5500  fisher,butterfly,evaluation
+            6000  trucks,philosopher,inches
+            6500  log,intact,sizes
+            7000  silence,alignment,santo
+            7500  ear,mit,co-wrote
+            8000  clare,defunct,thinks
+            8500  negotiate,lankan,pius
+            9000  burmese,forested,bmw
+            9500  jupiter,wines,troubles
+           10000  transparency,ensured,obsolete
+           10500  piers,olivier,martin's
+           11000  oceanic,veins,aragon
+           11500  recession,geoff,xvi
+           12000  choreographer,payload,julio
+           12500  offenders,semiconductor,calculate
+           13000  hulk,stockton,archival
+           13500  denying,paradigm,exploits
+           14000  willard,sami,zoology
+           14500  professions,fluids,webber
+           15000  roc,skeptical,compassion
+           15500  coptic,dump,improper
+           16000  outlaws,they've,roach
+           16500  distinguishes,fang,selangor
+           17000  grille,batavia,sms
+           17500  prematurely,cicero,reiterated
+           18000  indices,dynastic,german-speaking
+           18500  annum,daphne,beforehand
+           19000  hedges,grimm,bassett
+           19500  mach,gunshot,robbers
+           20000  davao,nunavut,lei
+           20500  celia,whistler,panned
+           21000  guangxi,fdp,antoinette
+           21500  narendra,husbandry,robber
+           22000  criticizes,extinguished,ignores
+           22500  mart,subterranean,văn
+           23000  counterpoint,sapporo,randomized
+           23500  pyramidal,skiers,calderón
+           24000  fn,aeroplane,cagliari
+           24500  pre-columbian,aif,invoke
+           25000  histone,tully,góra
+           25500  hamza,wood's,reagent
+           26000  ls,odia,weldon
+           26500  bede,mérida,solid-state
+           27000  healey,azteca,first-hand
+           27500  adana,numeric,accountancy
+           28000  xuan,yap,afp
+           28500  signified,mottled,reworking
+           29000  barbosa,fez,psychologically
+           29500  bobsleigh,yee,pontus
+           30000  nicolai,uproar,lamborghini            
+        </pre>
+    </div>
+
+    <script src="epub.js"></script>
+
+    <script>
+
+        const inputElement = document.getElementById('myNumberInputHtml');
+        inputElement.value=MaxFrequencyRank;
+        function updateVariableFromHtml() {
+            const newValue = Number(inputElement.value);
+            MaxFrequencyRank=newValue;
+            console.log("MaxFrequencyRank="+MaxFrequencyRank);            
+        }
+
+
+
+        loadWords();
+
+
+
+        async function processZip() {
+
+            unter8k=0;
+            uber8k=0;
+
+            htmlArray=[];
+             
+
+            const input = document.getElementById('fileInput');
+            if (!input.files.length) return;
+
+            const file = input.files[0];
+            const orgFileName = file.name;
+            console.log("UPLOAD  " + orgFileName)
+
+            const zip = new JSZip();
+            const content = await file.arrayBuffer();
+            const unzipped = await zip.loadAsync(content);
+
+            for (const fileName in unzipped.files) {
+                if (fileName.endsWith('.html') || fileName.endsWith('.xhtml') || fileName.endsWith('.htm')) {
+                    
+                    document.getElementById("htmlFileName").textContent=fileName;
+                    
+                    let htmlContent = await unzipped.files[fileName].async('string');
+
+                    // Extract the content inside <body>
+                    // htmlContent = htmlContent.replace(
+                    //     /(<body[^>]*>)([\s\S]*?)(<\/body>)/gi, 
+                    //     (_, openTag, bodyContent, closeTag) => {
+                    //         // Replace text outside HTML tags
+                    //         const modifiedBody = bodyContent.replace(/(?<!<[^>]*)hello/g, 'goodbye');
+
+                    //         return openTag + modifiedBody + closeTag;
+                    //     }
+                    // );
+
+
+                    let contentMitVokabeln= vokabeln4Html(htmlContent);   
+                    htmlArray.push(contentMitVokabeln);
+                    //unzipped.file(fileName, vokabeln4Html(htmlContent));
+                    unzipped.file(fileName, contentMitVokabeln);
+                    console.log("Vobalen für " + fileName);
+
+                }
+            }
+            document.getElementById("htmlFileName").textContent="";
+            showPreview();
+
+            document.getElementById("ueber8kStat").textContent  =`${(100*uber8k/(uber8k+unter8k)).toFixed(2)}%`;
+
+
+            const newZipBlob = await zip.generateAsync({ type: 'blob' });
+            const downloadLink = document.createElement('a');
+            downloadLink.href = URL.createObjectURL(newZipBlob);
+            downloadLink.download = 'vok-' + orgFileName;
+            downloadLink.click();
+        }
+
+        function showPreview(){
+            document.getElementById('previewDiv').style.display="block";
+            updateDisplay();
+            if( currentIndex>htmlArray.length ){
+                currentIndex=0
+            }
+        }
+
+
+        // The text array
+        let htmlArray = [];
+
+        // Variables to keep track of the current index
+        let currentIndex = 0;
+
+        // Get references to HTML elements
+        const displayTextElement = document.getElementById('displayText');
+        const displayTextIframe = document.getElementById('displayTextIframe');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const indexIndicator = document.getElementById('indexIndicator');
+
+        /**
+         * Function to update the displayed text and button states
+         */
+        function updateDisplay() {
+            // Display the current item from the array
+            //displayTextElement.textContent = textArray[currentIndex];
+            displayTextIframe.srcdoc=htmlArray[currentIndex];
+
+            // Update the index indicator (e.g., "1 of 5")
+            indexIndicator.textContent = `Item ${currentIndex + 1} of ${htmlArray.length}`;
+
+            // Disable/enable buttons based on the current index
+            prevBtn.disabled = (currentIndex === 0); // Disable 'Previous' if at the first item
+            nextBtn.disabled = (currentIndex === htmlArray.length - 1); // Disable 'Next' if at the last item
+        }
+
+        /**
+         * Event listener for the 'Previous' button
+         */
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateDisplay();
+            }
+        });
+
+        /**
+         * Event listener for the 'Next' button
+         */
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < htmlArray.length - 1) {
+                currentIndex++;
+                updateDisplay();
+            }
+        });
+
+        // Initialize the display when the page loads
+        
+
+    </script>
+</body>
+
+</html>
