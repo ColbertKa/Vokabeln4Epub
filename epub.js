@@ -166,8 +166,11 @@ function removeTagsImgScriptRegex(htmlString) {
     // >: matches closing '>'
     const imgRegex = /<img[^>]*\/?>/gi;
 
+    const linkRegex = /<img[^>]*\/?>/gi;
+
     let cleanedString = htmlString.replace(scriptRegex, '');
     cleanedString = cleanedString.replace(imgRegex, '');
+    cleanedString = cleanedString.replace(linkRegex, '');
 
     return cleanedString;
 }
