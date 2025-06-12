@@ -4,44 +4,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vokabeln 4 epub</title>
+    <title>Vokabeln in EPUB einfügen</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        input[type="file"],
+        input[type="number"] {
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        button {
+            padding: 0.6rem 1.2rem;
+            margin-top: 1rem;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        label {
+            display: block;
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+
+        .section {
+            margin-top: 2rem;
+        }
+
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .controls {
+            margin-top: 1rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        pre {
+            background-color: #f0f0f0;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+
+        a {
+            color: #2980b9;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        #indexIndicator {
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        vok {
+            vertical-align: sub;
+            font-size: smaller;
+            font-style: italic;
+        }
+    </style>
 </head>
 
+
 <body>
-    
-    <h2>Deutsche Vokabeln in englische EPUB Dateien einfügen</h2>
+    <div class="container">
+        <h2>Deutsche Vokabeln in englische EPUB-Dateien einfügen</h2>
 
-    
+        <input type="file" id="fileInput">
+        <button onclick="processZip()">EPUB verarbeiten</button>
+        <span id="htmlFileName"></span>
 
-    <input type="file" id="fileInput">
-    <button onclick="processZip()">Process EPUB</button>
-    <span id="htmlFileName"></span>
-   
-
-    <div style="margin: 1cm;">
-        <label for="myNumberInputHtml">Ab welchem Platz in der Häufigkeitsliste der Vokabeln (Je größer um so
-            seltener):</label>
-        <input type="number" id="myNumberInputHtml" value="0" onchange="updateVariableFromHtml()">
-    </div>
-    <div style="margin: 1cm;"><a href="https://www.gutenberg.org/ebooks/215.epub3.images" download="callofthewild">Dowload Call of the wild by Jack London</a></div>
-    
-    <div id="previewDiv" style="display:none;margin: 1cm;">
-        <h1>Preview</h1>
-        <iframe style="width: 50%; height:600px;" sandbox="" id="displayTextIframe"></iframe>
-        <div class="controls">
-            <button id="prevBtn">Previous</button>
-            <button id="nextBtn">Next</button>
+        <div class="section">
+            <label for="myNumberInputHtml">Ab welchem Platz in der Häufigkeitsliste der Vokabeln:</label>
+            <input type="number" id="myNumberInputHtml" value="0" onchange="updateVariableFromHtml()">
         </div>
-        <div id="indexIndicator"></div>
-    </div>
 
-    
-    <div style="margin: 1cm;">
-        <span>Häufigkei über 8k:</span><span id="ueber8kStat">0%</span>
-        <h3>Auszug aus der Häufigkeitsliste</h3>
-        Besser zu klein anfangen. Eine Vokabel die man nachschlagen muss ist ärgerllicher als eine die zuviel übersetzt wurde.
-        <pre>
+        <div class="section">
+            <a href="https://www.gutenberg.org/ebooks/215.epub3.images" download="callofthewild">
+                📘 Call of the Wild von Jack London herunterladen
+            </a>
+        </div>
+
+        <div id="previewDiv" class="section" style="display:none;">
+            <h3>Vorschau</h3>
+            <p>Format: <b>Wort<vok>Übersetzung Position</vok></b> z.B. whatsoever<vok>was auch immer 21k</vok> 21k steht
+                für Position 21.000 der Häufigkeitsliste</p>
+            <iframe sandbox="" id="displayTextIframe"></iframe>
+            <div class="controls">
+                <button id="prevBtn">Zurück</button>
+                <button id="nextBtn">Weiter</button>
+            </div>
+            <div id="indexIndicator"></div>
+        </div>
+
+        <div class="section">
+            <span>Häufigkeit über 8k: </span><span id="ueber8kStat">0%</span>
+            <h3>Auszug aus der Häufigkeitsliste</h3>
+            <p>Beginne lieber mit einem kleineren Wert. Eine Vokabel, die man nachschlagen muss, ist ärgerlicher als
+                eine, die zu viel übersetzt wurde.</p>
+
+            <pre>
             3000  indicated,arkansas,experimental
             3500  ongoing,alice,immigration
             4000  interstate,execution,enrolled
@@ -98,6 +198,7 @@
            29500  bobsleigh,yee,pontus
            30000  nicolai,uproar,lamborghini            
         </pre>
+        </div>
     </div>
 
     <script src="epub.js"></script>
@@ -105,11 +206,11 @@
     <script>
 
         const inputElement = document.getElementById('myNumberInputHtml');
-        inputElement.value=MaxFrequencyRank;
+        inputElement.value = MaxFrequencyRank;
         function updateVariableFromHtml() {
             const newValue = Number(inputElement.value);
-            MaxFrequencyRank=newValue;
-            console.log("MaxFrequencyRank="+MaxFrequencyRank);            
+            MaxFrequencyRank = newValue;
+            console.log("MaxFrequencyRank=" + MaxFrequencyRank);
         }
 
 
@@ -120,11 +221,11 @@
 
         async function processZip() {
 
-            unter8k=0;
-            uber8k=0;
+            unter8k = 0;
+            uber8k = 0;
 
-            htmlArray=[];
-             
+            htmlArray = [];
+
 
             const input = document.getElementById('fileInput');
             if (!input.files.length) return;
@@ -139,9 +240,9 @@
 
             for (const fileName in unzipped.files) {
                 if (fileName.endsWith('.html') || fileName.endsWith('.xhtml') || fileName.endsWith('.htm')) {
-                    
-                    document.getElementById("htmlFileName").textContent=fileName;
-                    
+
+                    document.getElementById("htmlFileName").textContent = fileName;
+
                     let htmlContent = await unzipped.files[fileName].async('string');
 
                     // Extract the content inside <body>
@@ -156,35 +257,42 @@
                     // );
 
 
-                    let contentMitVokabeln= vokabeln4Html(htmlContent);   
+                    let contentMitVokabeln = vokabeln4Html(htmlContent);
                     //let noImgCSS=removeTagsImgScriptRegex(htmlContent);
                     htmlArray.push(contentMitVokabeln);
                     //htmlArray.push(noImgCSS);
-                     
+
                     //unzipped.file(fileName, vokabeln4Html(htmlContent));
                     unzipped.file(fileName, contentMitVokabeln);
                     console.log("Vobalen für " + fileName);
 
                 }
             }
-            document.getElementById("htmlFileName").textContent="";
+            document.getElementById("htmlFileName").textContent = "";
             showPreview();
 
-            document.getElementById("ueber8kStat").textContent  =`${(100*uber8k/(uber8k+unter8k)).toFixed(2)}%`;
+            document.getElementById("ueber8kStat").textContent = `${(100 * uber8k / (uber8k + unter8k)).toFixed(2)}%`;
 
 
             const newZipBlob = await zip.generateAsync({ type: 'blob' });
             const downloadLink = document.createElement('a');
             downloadLink.href = URL.createObjectURL(newZipBlob);
-            downloadLink.download = 'vok-' + orgFileName;
+
+
+            const teile = orgFileName.split(".");
+            const name = teile.slice(0, -1).join(".");
+            const endung = teile.pop();
+
+
+            downloadLink.download = name+".vok."+endung;
             downloadLink.click();
         }
 
-        function showPreview(){
-            document.getElementById('previewDiv').style.display="block";
+        function showPreview() {
+            document.getElementById('previewDiv').style.display = "block";
             updateDisplay();
-            if( currentIndex>htmlArray.length ){
-                currentIndex=0
+            if (currentIndex > htmlArray.length) {
+                currentIndex = 0
             }
         }
 
@@ -208,7 +316,7 @@
         function updateDisplay() {
             // Display the current item from the array
             //displayTextElement.textContent = textArray[currentIndex];
-            displayTextIframe.srcdoc=htmlArray[currentIndex];
+            displayTextIframe.srcdoc = htmlArray[currentIndex];
 
             // Update the index indicator (e.g., "1 of 5")
             indexIndicator.textContent = `Item ${currentIndex + 1} of ${htmlArray.length}`;
@@ -239,7 +347,7 @@
         });
 
         // Initialize the display when the page loads
-        
+
 
     </script>
 </body>
