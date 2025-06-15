@@ -83,7 +83,9 @@ function addStyleToHtmlHead(htmlString) {
 
 function modifyTextInBody(htmlString) {
     return htmlString.replace(/(<body[^>]*>)([\s\S]*?)(<\/body>)/, (match, startTag, bodyContent, endTag) => {
-        let modifiedBody = bodyContent.replace(/>([^<]+)</g, (match, text) => `>${text.replace(/\b\w+\b/g, word => `${uebersetzeSeltene(word)}`)}<`);
+        //let modifiedBody = bodyContent.replace(/>([^<]+)</g, (match, text) => `>${text.replace(/\b\w+\b/g, word => `${uebersetzeSeltene(word)}`)}<`);
+        let modifiedBody = bodyContent.replace(/>([^<]+)</g, (match, text) => `>${text.replace(/\b\p{L}+\b/gu, word => `${uebersetzeSeltene(word)}`)}<`);
+        
         return startTag + modifiedBody + endTag;
     });
 }
