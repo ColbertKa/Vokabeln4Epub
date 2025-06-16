@@ -104,17 +104,21 @@
 
         .share-container {
             display: none;
-            flex-wrap: wrap; /* Allows buttons to wrap on smaller screens */
-            gap: 15px; /* Space between buttons */
+            flex-wrap: wrap;
+            /* Allows buttons to wrap on smaller screens */
+            gap: 15px;
+            /* Space between buttons */
             padding: 25px;
             background-color: #ffffff;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            justify-content: center; /* Center buttons if they wrap */
+            justify-content: center;
+            /* Center buttons if they wrap */
         }
 
         .share-container a {
-            display: inline-flex; /* Use flex for icon and text alignment */
+            display: inline-flex;
+            /* Use flex for icon and text alignment */
             align-items: center;
             padding: 12px 20px;
             border-radius: 8px;
@@ -123,50 +127,62 @@
             font-weight: bold;
             font-size: 16px;
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-            min-width: 150px; /* Ensure a minimum width for consistent look */
-            justify-content: center; /* Center text within the button */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            /* Subtle shadow for depth */
+            min-width: 150px;
+            /* Ensure a minimum width for consistent look */
+            justify-content: center;
+            /* Center text within the button */
         }
 
         /* Specific styles for each social media platform */
         .share-container a.facebook {
-            background-color: #1877F2; /* Facebook Blue */
+            background-color: #1877F2;
+            /* Facebook Blue */
         }
 
         .share-container a.twitter {
-            background-color: #1DA1F2; /* Twitter Blue */
+            background-color: #1DA1F2;
+            /* Twitter Blue */
         }
 
         .share-container a.linkedin {
-            background-color: #0A66C2; /* LinkedIn Blue */
+            background-color: #0A66C2;
+            /* LinkedIn Blue */
         }
 
         .share-container a.email {
-            background-color: #D44638; /* Google Mail Red - common for email */
+            background-color: #D44638;
+            /* Google Mail Red - common for email */
         }
 
         /* Hover effects */
         .share-container a:hover {
-            transform: translateY(-2px); /* Slight lift effect */
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* More prominent shadow on hover */
+            transform: translateY(-2px);
+            /* Slight lift effect */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            /* More prominent shadow on hover */
         }
 
         .share-container a.facebook:hover {
-            background-color: #166FE5; /* Slightly darker Facebook blue */
+            background-color: #166FE5;
+            /* Slightly darker Facebook blue */
         }
 
         .share-container a.twitter:hover {
-            background-color: #1A92DA; /* Slightly darker Twitter blue */
+            background-color: #1A92DA;
+            /* Slightly darker Twitter blue */
         }
 
         .share-container a.linkedin:hover {
-            background-color: #085B9E; /* Slightly darker LinkedIn blue */
+            background-color: #085B9E;
+            /* Slightly darker LinkedIn blue */
         }
 
         .share-container a.email:hover {
-            background-color: #C23321; /* Slightly darker email red */
+            background-color: #C23321;
+            /* Slightly darker email red */
         }
-
     </style>
 </head>
 
@@ -175,7 +191,7 @@
     <div class="container">
         <h2>Deutsche Vokabeln in englische EPUB-Dateien einfügen</h2>
 
-        <input type="file" id="fileInput">
+        <input type="file" id="fileInput" name="files[]" multiple>
         <button onclick="processZip()">EPUB verarbeiten</button>
         <span id="htmlFileName"></span>
 
@@ -189,28 +205,28 @@
                 📘 Call of the Wild von Jack London herunterladen
             </a>
         </div>
-        
+
         <div class="section">
             <span onclick="showShare()">Teilen <i class="fas fa-share-alt"></i></span>
-        
-        <div class="share-container" id="socialShareContainer">
-            <a href="https://www.facebook.com/sharer/sharer.php?u=https://raw.githack.com/ColbertKa/Vokabeln4Epub/main/index.html"
-                target="_blank" class="facebook">
-                Share on Facebook
-            </a>
-            <a href="https://twitter.com/intent/tweet?url=https://raw.githack.com/ColbertKa/Vokabeln4Epub/main/index.html&text=Vokabeln in eBooks einfügen"
-                target="_blank" class="twitter">
-                Share on Twitter
-            </a>
-            <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://raw.githack.com/ColbertKa/Vokabeln4Epub/main/index.html"
-                target="_blank" class="linkedin">
-                Share on LinkedIn
-            </a>
-            <a href="mailto:?subject=Vokabeln%20in%20eBooks%20einfügen&body=https://raw.githack.com/ColbertKa/Vokabeln4Epub/main/index.html"
-                target="_blank" class="email">
-                Share via Email
-            </a>
-        </div>
+
+            <div class="share-container" id="socialShareContainer">
+                <a href="https://www.facebook.com/sharer/sharer.php?u=https://raw.githack.com/ColbertKa/Vokabeln4Epub/main/index.html"
+                    target="_blank" class="facebook">
+                    Share on Facebook
+                </a>
+                <a href="https://twitter.com/intent/tweet?url=https://raw.githack.com/ColbertKa/Vokabeln4Epub/main/index.html&text=Vokabeln in eBooks einfügen"
+                    target="_blank" class="twitter">
+                    Share on Twitter
+                </a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://raw.githack.com/ColbertKa/Vokabeln4Epub/main/index.html"
+                    target="_blank" class="linkedin">
+                    Share on LinkedIn
+                </a>
+                <a href="mailto:?subject=Vokabeln%20in%20eBooks%20einfügen&body=https://raw.githack.com/ColbertKa/Vokabeln4Epub/main/index.html"
+                    target="_blank" class="email">
+                    Share via Email
+                </a>
+            </div>
         </div>
 
         <div id="previewDiv" class="section" style="display:none;">
@@ -295,7 +311,7 @@
 
     <script>
 
-         function showShare(){
+        function showShare() {
             console.log("teilen")
             document.getElementById('socialShareContainer').style.display = "flex";
         }
@@ -324,63 +340,64 @@
 
             const input = document.getElementById('fileInput');
             if (!input.files.length) return;
+            for (let i = 0; i < input.files.length; i++) {
+                const file = input.files[i];
+                const orgFileName = file.name;
+                console.log("UPLOAD  " + orgFileName)
 
-            const file = input.files[0];
-            const orgFileName = file.name;
-            console.log("UPLOAD  " + orgFileName)
+                const zip = new JSZip();
+                const content = await file.arrayBuffer();
+                const unzipped = await zip.loadAsync(content);
 
-            const zip = new JSZip();
-            const content = await file.arrayBuffer();
-            const unzipped = await zip.loadAsync(content);
+                for (const fileName in unzipped.files) {
+                    if (fileName.endsWith('.html') || fileName.endsWith('.xhtml') || fileName.endsWith('.htm')) {
 
-            for (const fileName in unzipped.files) {
-                if (fileName.endsWith('.html') || fileName.endsWith('.xhtml') || fileName.endsWith('.htm')) {
+                        document.getElementById("htmlFileName").textContent = fileName;
 
-                    document.getElementById("htmlFileName").textContent = fileName;
+                        let htmlContent = await unzipped.files[fileName].async('string');
 
-                    let htmlContent = await unzipped.files[fileName].async('string');
+                        // Extract the content inside <body>
+                        // htmlContent = htmlContent.replace(
+                        //     /(<body[^>]*>)([\s\S]*?)(<\/body>)/gi, 
+                        //     (_, openTag, bodyContent, closeTag) => {
+                        //         // Replace text outside HTML tags
+                        //         const modifiedBody = bodyContent.replace(/(?<!<[^>]*)hello/g, 'goodbye');
 
-                    // Extract the content inside <body>
-                    // htmlContent = htmlContent.replace(
-                    //     /(<body[^>]*>)([\s\S]*?)(<\/body>)/gi, 
-                    //     (_, openTag, bodyContent, closeTag) => {
-                    //         // Replace text outside HTML tags
-                    //         const modifiedBody = bodyContent.replace(/(?<!<[^>]*)hello/g, 'goodbye');
-
-                    //         return openTag + modifiedBody + closeTag;
-                    //     }
-                    // );
+                        //         return openTag + modifiedBody + closeTag;
+                        //     }
+                        // );
 
 
-                    let contentMitVokabeln = vokabeln4Html(htmlContent);
-                    //let noImgCSS=removeTagsImgScriptRegex(htmlContent);
-                    htmlArray.push(contentMitVokabeln);
-                    //htmlArray.push(noImgCSS);
+                        let contentMitVokabeln = vokabeln4Html(htmlContent);
+                        //let noImgCSS=removeTagsImgScriptRegex(htmlContent);
+                        htmlArray.push(contentMitVokabeln);
+                        //htmlArray.push(noImgCSS);
 
-                    //unzipped.file(fileName, vokabeln4Html(htmlContent));
-                    unzipped.file(fileName, contentMitVokabeln);
-                    console.log("Vobalen für " + fileName);
+                        //unzipped.file(fileName, vokabeln4Html(htmlContent));
+                        unzipped.file(fileName, contentMitVokabeln);
+                        console.log("Vobalen für " + fileName);
 
+                    }
                 }
+                document.getElementById("htmlFileName").textContent = "";
+                showPreview();
+
+                document.getElementById("ueber8kStat").textContent = `${(100 * uber8k / (uber8k + unter8k)).toFixed(2)}%`;
+
+
+                const newZipBlob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE' });
+                const downloadLink = document.createElement('a');
+                downloadLink.href = URL.createObjectURL(newZipBlob);
+
+
+                const teile = orgFileName.split(".");
+                const name = teile.slice(0, -1).join(".");
+                const endung = teile.pop();
+
+
+                downloadLink.download = name + ".vok." + endung;
+                downloadLink.click();
             }
-            document.getElementById("htmlFileName").textContent = "";
-            showPreview();
-
-            document.getElementById("ueber8kStat").textContent = `${(100 * uber8k / (uber8k + unter8k)).toFixed(2)}%`;
-
-
-            const newZipBlob = await zip.generateAsync({ type: 'blob' });
-            const downloadLink = document.createElement('a');
-            downloadLink.href = URL.createObjectURL(newZipBlob);
-
-
-            const teile = orgFileName.split(".");
-            const name = teile.slice(0, -1).join(".");
-            const endung = teile.pop();
-
-
-            downloadLink.download = name + ".vok." + endung;
-            downloadLink.click();
         }
 
         function showPreview() {
